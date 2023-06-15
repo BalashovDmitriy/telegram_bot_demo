@@ -1,12 +1,9 @@
 import telebot
 import requests
 import json
-import os
 
 from os import getenv
-from telebot import types
 from dotenv import load_dotenv
-from datetime import datetime
 
 load_dotenv()
 
@@ -39,19 +36,19 @@ def save_to_json(data_to_save: dict):
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    btn1 = types.KeyboardButton("👋 Привет, Павел!")
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = telebot.types.KeyboardButton("👋 Привет, Павел!")
     markup.add(btn1)
     bot.send_message(message.from_user.id, "👋 Привет! Я бот, меня зовут Павел_спекулянт!", reply_markup=markup)
 
 
 @bot.message_handler(content_types=['text'])
-def get_text_messages(message, time_operation=None):
+def get_text_messages(message):
     if message.text == '👋 Привет, Павел!':
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)  # создание новых кнопок
-        btn1 = types.KeyboardButton('Доллар')
-        btn2 = types.KeyboardButton('Евро')
-        btn3 = types.KeyboardButton('Выход')
+        markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)  # создание новых кнопок
+        btn1 = telebot.types.KeyboardButton('Доллар')
+        btn2 = telebot.types.KeyboardButton('Евро')
+        btn3 = telebot.types.KeyboardButton('Выход')
         markup.add(btn1, btn2, btn3)
         bot.send_message(message.from_user.id, 'Выберите курс валюты или нажмите выход',
                          reply_markup=markup)  # ответ бота
@@ -59,14 +56,16 @@ def get_text_messages(message, time_operation=None):
     elif message.text == 'Доллар':
         data = get_currency_rate("USD")
         if save_to_json(data):
-            bot.send_message(message.from_user.id, f"За 1 доллар сейчас дают {round(data['rates']['RUB'], 2)}р.", parse_mode='Markdown')
+            bot.send_message(message.from_user.id, f"За 1 доллар сейчас дают {round(data['rates']['RUB'], 2)}р.",
+                             parse_mode='Markdown')
         else:
             bot.send_message(message.from_user.id, f"Курс не изменился")
 
     elif message.text == 'Евро':
         data = get_currency_rate("EUR")
         if save_to_json(data):
-            bot.send_message(message.from_user.id, f"За 1 евро сейчас дают {round(data['rates']['RUB'], 2)}р.", parse_mode='Markdown')
+            bot.send_message(message.from_user.id, f"За 1 евро сейчас дают {round(data['rates']['RUB'], 2)}р.",
+                             parse_mode='Markdown')
         else:
             bot.send_message(message.from_user.id, f"Курс не изменился")
 
