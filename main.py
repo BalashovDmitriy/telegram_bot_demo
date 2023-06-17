@@ -128,7 +128,8 @@ def get_text_messages(message) -> None:
     :param message: объект message
     :return: None
     """
-    if message.text == '👋 Поздороваться с Павлом' or message.text == 'В меню' or message.text == 'назад':
+    if message.text == '👋 Поздороваться с Павлом' or message.text == 'В меню' or \
+            message.text == 'назад' or message.text == 'Назад':
         markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
         btn1 = telebot.types.KeyboardButton('Валюты')
         btn2 = telebot.types.KeyboardButton('Криптовалюты')
