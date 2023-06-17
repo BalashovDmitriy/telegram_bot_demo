@@ -9,8 +9,8 @@ packages = [{include = "telegram_bot_demo"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 pytelegrambotapi = "^4.12.0"
-python-dotenv = "^1.0.0"
 requests = "^2.31.0"
+google-api-python-client = "^2.89.0"
 
 
 [build-system]
